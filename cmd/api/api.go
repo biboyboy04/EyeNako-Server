@@ -26,7 +26,8 @@ func (s *APIServer) Run () error {
 	// make all router starts with the prefix given
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
-	userHandler := user.NewHandler()
+	userStore := user.NewStore(s.db)
+	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(subrouter)
 
 	fmt.Printf("Server running on %s... \n", s.addr)
