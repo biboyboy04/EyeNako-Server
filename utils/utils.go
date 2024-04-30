@@ -11,6 +11,7 @@ import (
 var Validate = validator.New()
 
 
+// This populate request body data to, pointer v
 func ParseJSON(r *http.Request, v any) error{
 	
 	if r.Body == nil {
