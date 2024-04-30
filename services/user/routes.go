@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/biboyboy04/EyeNako-Server/config"
 	"github.com/biboyboy04/EyeNako-Server/services/auth"
 	"github.com/biboyboy04/EyeNako-Server/types"
 	"github.com/biboyboy04/EyeNako-Server/utils"
@@ -57,8 +58,15 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request){
 			utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("not found, invalid email or password"))
 			return 
 		}
+		secret := []byte(config.Envs.JWTSecret)
+		token, err := auth.CreateJWT(secret, u.ID)
 
-		utils.WriteJSON(w, http.StatusOK, map[string]string{"token": ""})
+		if err != nil {
+			utils.WriteError(w, http.StatusInternalServerError, err)
+			return
+		}
+
+		utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request){

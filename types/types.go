@@ -25,6 +25,7 @@ type User struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	IsArchived int `json:"isArchived"`
+	
 }
 
 type RegisterUserPayload struct {
